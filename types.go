@@ -19,7 +19,7 @@ type PanamaxAdapter interface {
 // actualState is used to provide status back to the remote
 // agent.
 type Service struct {
-	Id          string         `json:"id"`
+	ID          string         `json:"id"`
 	Name        string         `json:"name,omitempty"`
 	Source      string         `json:"source,omitempty"`
 	Command     string         `json:"command,omitempty"`
@@ -67,6 +67,7 @@ type Volume struct {
 	ContainerPath string `json:"containerPath"`
 }
 
+// VolumesFrom allows volumes to be mounted from another container.
 type VolumesFrom struct {
 	Name string `json:"name"`
 }

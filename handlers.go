@@ -94,7 +94,7 @@ func deleteService(adapter PanamaxAdapter, params martini.Params) (int, string) 
 // version and type of adapter.
 func getMetadata(e encoder, adapter PanamaxAdapter) (int, string) {
 
-	data := &Metadata{Version: VERSION, Type: "marathon"}
+	data := &Metadata{Version: Version, Type: "marathon"}
 
 	return http.StatusOK, e.Encode(data)
 }
