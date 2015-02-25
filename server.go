@@ -10,10 +10,14 @@ import (
 	"github.com/codegangsta/martini"
 )
 
-const (
-	API_VERSION = "v1"
-	VERSION     = "0.1.0"
-)
+// The Version of the API exposed by AdapterServer.
+const APIVersion = "v1"
+
+// The AdapterServer serves your PanamaxAdapter-implementing adapter via the
+// standard API that Panamax speaks.
+type AdapterServer interface {
+	Start()
+}
 
 type martiniServer struct {
 	svr *martini.Martini
@@ -22,7 +26,7 @@ type martiniServer struct {
 // NewServer creates an instance of a martini server. The
 // adapterInst parameter is the adapter type the server will
 // use when dispatching requests.
-func NewServer(adapterInst PanamaxAdapter) *martiniServer {
+func NewServer(adapterInst PanamaxAdapter) AdapterServer {
 	s := martini.New()
 
 	// Setup middleware
@@ -34,7 +38,7 @@ func NewServer(adapterInst PanamaxAdapter) *martiniServer {
 	})
 	// Setup routes
 	router := martini.NewRouter()
-	router.Group(fmt.Sprintf("/%s", API_VERSION), func(r martini.Router) {
+	router.Group(fmt.Sprintf("/%s", APIVersion), func(r martini.Router) {
 		r.Get(`/services`, getServices)
 		r.Get(`/services/:id`, getService)
 		r.Post(`/services`, createServices)

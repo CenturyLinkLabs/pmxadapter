@@ -1,8 +1,10 @@
 package pmxadapter
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,7 +15,7 @@ import (
 var testServer *httptest.Server
 
 func init() {
-	martini := NewServer(new(NoOPAdapter))
+	martini := NewServer(new(NoOPAdapter)).(*martiniServer)
 	testServer = httptest.NewServer(martini.svr)
 }
 
@@ -35,6 +37,9 @@ func (NoOPAdapter) UpdateService(*Service) *Error {
 }
 func (NoOPAdapter) DestroyService(string) *Error {
 	return nil
+}
+func (NoOPAdapter) GetMetadata() Metadata {
+	return Metadata{Type: "NOOP", Version: "0.1"}
 }
 
 func TestGetServicesRoute(t *testing.T) {
@@ -74,8 +79,14 @@ func TestDeleteServiceRoute(t *testing.T) {
 
 func TestGetMetadataRoute(t *testing.T) {
 	res, _ := http.Get(fmt.Sprintf("%s/v1/metadata", testServer.URL))
+	m := Metadata{}
+	j, _ := ioutil.ReadAll(res.Body)
+	err := json.Unmarshal(j, &m)
+	assert.NoError(t, err)
 
 	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Equal(t, "NOOP", m.Type)
+	assert.Equal(t, "0.1", m.Version)
 }
 
 func TestNoRoute(t *testing.T) {
