@@ -34,6 +34,9 @@ func (e MockAdapter) UpdateService(*Service) *Error {
 func (e MockAdapter) DestroyService(string) *Error {
 	return e.returnError
 }
+func (e MockAdapter) GetMetadata() Metadata {
+	return Metadata{Type: "mock", Version: "0.1"}
+}
 
 func newMockAdapter(code int, message string) *MockAdapter {
 	adapter := new(MockAdapter)

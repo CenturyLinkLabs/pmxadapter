@@ -12,6 +12,7 @@ type PanamaxAdapter interface {
 	CreateServices([]*Service) ([]*Service, *Error)
 	UpdateService(*Service) *Error
 	DestroyService(string) *Error
+	GetMetadata() Metadata
 }
 
 // A Service describes the information needed to deploy and
