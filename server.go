@@ -10,11 +10,8 @@ import (
 	"github.com/codegangsta/martini"
 )
 
-// Version numbers for the API and adapter release.
-const (
-	APIVersion = "v1"
-	Version    = "0.1.0"
-)
+// The Version of the API exposed by AdapterServer.
+const APIVersion = "v1"
 
 // The AdapterServer serves your PanamaxAdapter-implementing adapter via the
 // standard API that Panamax speaks.
