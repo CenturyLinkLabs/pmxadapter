@@ -16,6 +16,12 @@ const (
 	Version    = "0.1.0"
 )
 
+// The AdapterServer serves your PanamaxAdapter-implementing adapter via the
+// standard API that Panamax speaks.
+type AdapterServer interface {
+	Start()
+}
+
 type martiniServer struct {
 	svr *martini.Martini
 }
@@ -23,7 +29,7 @@ type martiniServer struct {
 // NewServer creates an instance of a martini server. The
 // adapterInst parameter is the adapter type the server will
 // use when dispatching requests.
-func NewServer(adapterInst PanamaxAdapter) *martiniServer {
+func NewServer(adapterInst PanamaxAdapter) AdapterServer {
 	s := martini.New()
 
 	// Setup middleware

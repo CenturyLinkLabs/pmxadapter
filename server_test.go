@@ -13,7 +13,7 @@ import (
 var testServer *httptest.Server
 
 func init() {
-	martini := NewServer(new(NoOPAdapter))
+	martini := NewServer(new(NoOPAdapter)).(*martiniServer)
 	testServer = httptest.NewServer(martini.svr)
 }
 
