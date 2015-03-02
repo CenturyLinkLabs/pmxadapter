@@ -57,11 +57,14 @@ func getService(e encoder, adapter PanamaxAdapter, params martini.Params) (int, 
 // Refer to https://github.com/CenturyLinkLabs/panamax-ui/wiki/Adapter-Developer's-Guide
 func createServices(e encoder, adapter PanamaxAdapter, r *http.Request) (int, string) {
 	var services []*Service
-	json.NewDecoder(r.Body).Decode(&services)
-
-	res, err := adapter.CreateServices(services)
+	err := json.NewDecoder(r.Body).Decode(&services)
 	if err != nil {
-		return sanitizeErrorCode(err.Code), err.Message
+		return http.StatusInternalServerError, err.Error()
+	}
+
+	res, pmxErr := adapter.CreateServices(services)
+	if pmxErr != nil {
+		return sanitizeErrorCode(pmxErr.Code), pmxErr.Message
 	}
 
 	return http.StatusCreated, e.Encode(res)

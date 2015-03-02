@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -55,7 +56,7 @@ func TestGetServiceRoute(t *testing.T) {
 }
 
 func TestPostServiceRoute(t *testing.T) {
-	var body io.Reader
+	body := strings.NewReader("[]")
 	res, _ := http.Post(fmt.Sprintf("%s/v1/services", testServer.URL), "", body)
 
 	assert.Equal(t, http.StatusCreated, res.StatusCode)

@@ -14,13 +14,8 @@ type MockAdapter struct {
 	returnError *Error
 }
 
-func (e MockAdapter) SetReturnCode(code int) {
-
-}
-
 func (e MockAdapter) GetServices() ([]*Service, *Error) {
 	return nil, e.returnError
-
 }
 func (e MockAdapter) GetService(string) (*Service, *Error) {
 	return nil, e.returnError
@@ -67,10 +62,18 @@ func TestSuccessfulGetService(t *testing.T) {
 }
 
 func TestSuccessfulCreateServices(t *testing.T) {
-	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader("{}"))
+	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader("[]"))
 	code, _ := createServices(testEncoder, newMockAdapter(201, ""), req)
 
 	assert.Equal(t, http.StatusCreated, code)
+}
+
+func TestErroredCreateServices(t *testing.T) {
+	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader("BAD JSON"))
+	code, message := createServices(testEncoder, newMockAdapter(201, ""), req)
+
+	assert.Equal(t, http.StatusInternalServerError, code)
+	assert.Contains(t, message, "invalid character")
 }
 
 func TestSuccessfulUpdateService(t *testing.T) {
@@ -119,11 +122,11 @@ func TestGetServiceNotFound(t *testing.T) {
 }
 
 func TestCreateServicesError(t *testing.T) {
-	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader("{}"))
+	req, _ := http.NewRequest("POST", "http://localhost", strings.NewReader("[]"))
 	code, body := createServices(testEncoder, newMockAdapter(500, "internal error"), req)
 
 	assert.Equal(t, http.StatusInternalServerError, code)
-	assert.Equal(t, "internal error", body)
+	assert.Equal(t, "Error(500): internal error", body)
 }
 
 func TestDeleteServiceNotFound(t *testing.T) {
