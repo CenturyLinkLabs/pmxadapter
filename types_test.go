@@ -57,8 +57,8 @@ func TestUnmarshalPort(t *testing.T) {
 	str := `{"hostPort": 8080, "containerPort": 9000}`
 	json.Unmarshal([]byte(str), &port)
 
-	assert.Equal(t, 8080, port.HostPort)
-	assert.Equal(t, 9000, port.ContainerPort)
+	assert.Equal(t, 8080, int(port.HostPort))
+	assert.Equal(t, 9000, int(port.ContainerPort))
 	assert.Equal(t, "", port.Protocol)
 }
 
@@ -108,7 +108,7 @@ func TestUnmarshalService(t *testing.T) {
 
 	assert.Equal(t, "myService", service.ID)
 	assert.Equal(t, "myServiceName", service.Name)
-	assert.Equal(t, 8080, service.Ports[0].ContainerPort)
+	assert.Equal(t, 8080, int(service.Ports[0].ContainerPort))
 	assert.Equal(t, "bar", service.Volumes[0].ContainerPath)
 	assert.Equal(t, 1, service.Deployment.Count)
 	assert.Equal(t, "myvolume", service.VolumesFrom[0].Name)
