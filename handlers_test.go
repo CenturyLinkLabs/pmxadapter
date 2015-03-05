@@ -23,9 +23,6 @@ func (e MockAdapter) GetService(string) (ServiceDeployment, *Error) {
 func (e MockAdapter) CreateServices([]*Service) ([]ServiceDeployment, *Error) {
 	return nil, e.returnError
 }
-func (e MockAdapter) UpdateService(*Service) *Error {
-	return e.returnError
-}
 func (e MockAdapter) DestroyService(string) *Error {
 	return e.returnError
 }

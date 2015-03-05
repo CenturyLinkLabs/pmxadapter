@@ -10,7 +10,6 @@ type PanamaxAdapter interface {
 	GetServices() ([]ServiceDeployment, *Error)
 	GetService(string) (ServiceDeployment, *Error)
 	CreateServices([]*Service) ([]ServiceDeployment, *Error)
-	UpdateService(*Service) *Error
 	DestroyService(string) *Error
 	GetMetadata() Metadata
 }

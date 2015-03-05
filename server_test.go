@@ -32,9 +32,6 @@ func (NoOPAdapter) GetService(string) (ServiceDeployment, *Error) {
 func (NoOPAdapter) CreateServices([]*Service) ([]ServiceDeployment, *Error) {
 	return make([]ServiceDeployment, 0), nil
 }
-func (NoOPAdapter) UpdateService(*Service) *Error {
-	return nil
-}
 func (NoOPAdapter) DestroyService(string) *Error {
 	return nil
 }
