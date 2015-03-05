@@ -7,20 +7,17 @@ import (
 // PanamaxAdapter encapulates the CRUD operations for Services.
 // These methods must be implemented to fulfill the adapter contract.
 type PanamaxAdapter interface {
-	GetServices() ([]*Service, *Error)
-	GetService(string) (*Service, *Error)
-	CreateServices([]*Service) ([]*Service, *Error)
+	GetServices() ([]ServiceDeployment, *Error)
+	GetService(string) (ServiceDeployment, *Error)
+	CreateServices([]*Service) ([]ServiceDeployment, *Error)
 	UpdateService(*Service) *Error
 	DestroyService(string) *Error
 	GetMetadata() Metadata
 }
 
 // A Service describes the information needed to deploy and
-// scale a desired application. The Id is required and the
-// actualState is used to provide status back to the remote
-// agent.
+// scale a desired application.
 type Service struct {
-	ID          string         `json:"id"`
 	Name        string         `json:"name,omitempty"`
 	Source      string         `json:"source,omitempty"`
 	Command     string         `json:"command,omitempty"`
@@ -30,8 +27,13 @@ type Service struct {
 	Environment []*Environment `json:"environment,omitempty"`
 	Volumes     []*Volume      `json:"volumes,omitempty"`
 	VolumesFrom []*VolumesFrom `json:"volumes_from,omitempty"`
-	ActualState string         `json:"actualState,omitempty"`
 	Deployment  Deployment     `json:"deployment,omitempty"`
+}
+
+// A ServiceDeployment shows the state of a deployed service.
+type ServiceDeployment struct {
+	ID          string `json:"id"`
+	ActualState string `json:"actualState"`
 }
 
 // Deployment structure contains the deployment count

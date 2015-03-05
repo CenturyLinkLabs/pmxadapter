@@ -23,15 +23,14 @@ func init() {
 type NoOPAdapter struct {
 }
 
-func (NoOPAdapter) GetServices() ([]*Service, *Error) {
-	return make([]*Service, 0), nil
+func (NoOPAdapter) GetServices() ([]ServiceDeployment, *Error) {
+	return []ServiceDeployment{}, nil
 }
-func (NoOPAdapter) GetService(string) (*Service, *Error) {
-	service := new(Service)
-	return service, nil
+func (NoOPAdapter) GetService(string) (ServiceDeployment, *Error) {
+	return ServiceDeployment{}, nil
 }
-func (NoOPAdapter) CreateServices([]*Service) ([]*Service, *Error) {
-	return make([]*Service, 0), nil
+func (NoOPAdapter) CreateServices([]*Service) ([]ServiceDeployment, *Error) {
+	return make([]ServiceDeployment, 0), nil
 }
 func (NoOPAdapter) UpdateService(*Service) *Error {
 	return nil
