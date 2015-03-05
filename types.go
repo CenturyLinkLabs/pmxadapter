@@ -76,8 +76,9 @@ type VolumesFrom struct {
 
 // Metadata contains informational data about the current adapter.
 type Metadata struct {
-	Version string `json:"version"`
-	Type    string `json:"type"`
+	Version   string `json:"version"`
+	Type      string `json:"type"`
+	IsHealthy bool   `json:"isHealthy"`
 }
 
 // Error is an application specific error structure which
