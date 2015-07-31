@@ -14,7 +14,7 @@ This process has been greatly simplified for Go developers by using the pmxadapt
 #### Build Steps
 
 1. Create your go project
-2. Go get github.com/CenturyLinkLabs.com/pmxadapter
+2. Go get github.com/CenturyLinkLabs/pmxadapter
 3. Implement the adapter interface.
 4. Create the server
 
